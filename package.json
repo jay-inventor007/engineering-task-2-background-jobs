@@ -1,0 +1,32 @@
+{
+  "name": "background-jobs-listing-flyers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "api": "tsx --env-file-if-exists=.env src/server.ts",
+    "worker": "tsx --env-file-if-exists=.env src/worker.ts",
+    "migrate": "tsx --env-file-if-exists=.env scripts/migrate.ts",
+    "burst": "tsx --env-file-if-exists=.env scripts/enqueue-burst.ts",
+    "report": "tsx --env-file-if-exists=.env scripts/report.ts",
+    "test:idempotency": "tsx --env-file-if-exists=.env scripts/idempotency-test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pdfkit": "^0.20.2",
+    "pg": "^8.23.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.2",
+    "@types/pdfkit": "^0.17.6",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
