@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flyer jobs</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Flyer jobs</h1>
+
+      <section>
+        <h2>Make a flyer</h2>
+        <form id="create">
+          <label>Title <input name="title" value="3-bedroom apartment in Yaba" required /></label>
+          <label>Price (naira) <input name="price" type="number" min="1" value="2700000" required /></label>
+          <label>Address <input name="address" value="12 Herbert Macaulay Way, Yaba, Lagos" required /></label>
+          <label>Bedrooms <input name="bedrooms" type="number" min="0" value="3" required /></label>
+          <button type="submit">Make flyer</button>
+        </form>
+        <div id="status" class="box" hidden></div>
+      </section>
+
+      <section>
+        <div class="heading-row">
+          <h2>Dead letter queue</h2>
+          <button id="refresh" type="button">Refresh</button>
+        </div>
+        <p class="hint">Jobs that failed every attempt. They will not run again until someone presses Retry.</p>
+        <div id="dead"></div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
