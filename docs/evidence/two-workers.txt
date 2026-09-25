@@ -1,0 +1,29 @@
+enqueued 50 jobs in 2791ms, responses: { '202': 50 }
+run prefix: burst-1790355551614
+Per worker, for jobs in run burst-1790355551614:
+┌─────────┬───────────┬──────────────┬──────────────┐
+│ (index) │ worker_id │ peak_at_once │ attempts_run │
+├─────────┼───────────┼──────────────┼──────────────┤
+│ 0       │ 'w1'      │ 5            │ 31           │
+│ 1       │ 'w2'      │ 5            │ 32           │
+└─────────┴───────────┴──────────────┴──────────────┘
+Job statuses for this run:
+┌─────────┬─────────────┬──────┐
+│ (index) │ status      │ jobs │
+├─────────┼─────────────┼──────┤
+│ 0       │ 'succeeded' │ 50   │
+└─────────┴─────────────┴──────┘
+Jobs worked on by two workers at the same time: 0
+Jobs that succeeded more than once:             0
+Flyers produced:                                50
+Jobs retried by a different worker from the one whose attempt failed (attempt:worker:outcome):
+┌─────────┬────────────┬────────────────────────────────────────────────────┐
+│ (index) │ job        │ attempts                                           │
+├─────────┼────────────┼────────────────────────────────────────────────────┤
+│ 0       │ '0a5c78a7' │ '1:w1:failed  ->  2:w2:succeeded'                  │
+│ 1       │ '1eba9d01' │ '1:w1:failed  ->  2:w2:succeeded'                  │
+│ 2       │ '26e068e6' │ '1:w2:failed  ->  2:w1:failed  ->  3:w1:succeeded' │
+│ 3       │ '3638078b' │ '1:w1:failed  ->  2:w2:succeeded'                  │
+│ 4       │ '500b0b91' │ '1:w1:failed  ->  2:w2:succeeded'                  │
+│ 5       │ 'ac490636' │ '1:w2:failed  ->  2:w1:succeeded'                  │
+└─────────┴────────────┴────────────────────────────────────────────────────┘

@@ -1,0 +1,5 @@
+Case 1, one after the other. Job 7431962f-e23f-4387-902c-de7c6457ed04
+  after run 1: 1 flyer(s)
+  after run 2: 1 flyer(s)
+Case 2, two runs at the same moment. Job 28c110fa-15f6-4f9a-bc1e-c36ff869448e
+  after both runs: 1 flyer(s)

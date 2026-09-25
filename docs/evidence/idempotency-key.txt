@@ -1,0 +1,14 @@
+One after the other, Idempotency-Key: double-submit-1790354554059
+  first:  { status: 202, id: '0478f606-ce42-4af6-aa08-e5e6519ac8aa' }
+  second: { status: 200, id: '0478f606-ce42-4af6-aa08-e5e6519ac8aa' }
+Both at the same moment, Idempotency-Key: double-submit-parallel-1790354555914
+  request A: { status: 202, id: '4fa41b91-bbc2-44c9-98f9-2c3edadf81a1' }
+  request B: { status: 200, id: '4fa41b91-bbc2-44c9-98f9-2c3edadf81a1' }
+  same job id: true
+Rows in the jobs table per key:
+┌─────────┬────────────────────────────────────────┬───────────────┐
+│ (index) │ idempotency_key                        │ jobs_in_table │
+├─────────┼────────────────────────────────────────┼───────────────┤
+│ 0       │ 'double-submit-1790354554059'          │ 1             │
+│ 1       │ 'double-submit-parallel-1790354555914' │ 1             │
+└─────────┴────────────────────────────────────────┴───────────────┘

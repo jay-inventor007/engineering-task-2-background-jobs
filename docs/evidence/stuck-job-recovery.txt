@@ -1,0 +1,55 @@
+=== BEFORE THE KILL ===
+┌─────────┬────────────┬──────────────┬──────────┬───────────┬────────────┬────────────┐
+│ (index) │ id         │ status       │ attempts │ locked_by │ started_at │ last_error │
+├─────────┼────────────┼──────────────┼──────────┼───────────┼────────────┼────────────┤
+│ 0       │ 'a77b2a94' │ 'processing' │ 1        │ 'w-crash' │ '16:47:37' │ null       │
+│ 1       │ 'db046ada' │ 'processing' │ 1        │ 'w-crash' │ '16:47:38' │ null       │
+│ 2       │ '865d75a4' │ 'processing' │ 1        │ 'w-crash' │ '16:47:38' │ null       │
+└─────────┴────────────┴──────────────┴──────────┴───────────┴────────────┴────────────┘
+
+=== AFTER THE KILL (worker process force-killed at 16:47:55 UTC; no worker running) ===
+┌─────────┬────────────┬──────────────┬──────────┬───────────┬────────────┬────────────┐
+│ (index) │ id         │ status       │ attempts │ locked_by │ started_at │ last_error │
+├─────────┼────────────┼──────────────┼──────────┼───────────┼────────────┼────────────┤
+│ 0       │ 'a77b2a94' │ 'processing' │ 1        │ 'w-crash' │ '16:47:37' │ null       │
+│ 1       │ 'db046ada' │ 'processing' │ 1        │ 'w-crash' │ '16:47:38' │ null       │
+│ 2       │ '865d75a4' │ 'processing' │ 1        │ 'w-crash' │ '16:47:38' │ null       │
+└─────────┴────────────┴──────────────┴──────────┴───────────┴────────────┴────────────┘
+
+=== AFTER RESTARTING A WORKER ===
+Worker log:
+2026-09-25T16:58:23.303Z [w-restarted] worker started: concurrency 5, max attempts 5, stuck timeout 60s, failure rate 0
+2026-09-25T16:58:24.392Z [w-restarted] swept   a77b2a94 was stuck (worker w-crash), now pending
+2026-09-25T16:58:24.393Z [w-restarted] swept   db046ada was stuck (worker w-crash), now pending
+2026-09-25T16:58:24.393Z [w-restarted] swept   865d75a4 was stuck (worker w-crash), now pending
+2026-09-25T16:58:24.525Z [w-restarted] start   9a85da6a attempt 1/5  (running 1/5, peak 1)
+2026-09-25T16:58:25.361Z [w-restarted] start   1516d0b9 attempt 1/5  (running 2/5, peak 2)
+2026-09-25T16:58:25.485Z [w-restarted] start   a77b2a94 attempt 2/5  (running 3/5, peak 3)
+2026-09-25T16:58:25.603Z [w-restarted] start   db046ada attempt 2/5  (running 4/5, peak 4)
+2026-09-25T16:58:26.457Z [w-restarted] start   865d75a4 attempt 2/5  (running 5/5, peak 5)
+2026-09-25T16:58:28.176Z [w-restarted] success 1516d0b9
+2026-09-25T16:58:28.347Z [w-restarted] success 9a85da6a
+2026-09-25T16:58:29.147Z [w-restarted] success a77b2a94
+2026-09-25T16:58:29.220Z [w-restarted] success db046ada
+2026-09-25T16:58:29.485Z [w-restarted] success 865d75a4
+Jobs after recovery:
+┌─────────┬────────────┬─────────────┬──────────┬───────────┬─────────────────────────────────────────────────────────────────────────┐
+│ (index) │ id         │ status      │ attempts │ locked_by │ last_error                                                              │
+├─────────┼────────────┼─────────────┼──────────┼───────────┼─────────────────────────────────────────────────────────────────────────┤
+│ 0       │ 'a77b2a94' │ 'succeeded' │ 2        │ ''        │ 'Worker w-crash stopped responding: job was in processing for over 60s' │
+│ 1       │ 'db046ada' │ 'succeeded' │ 2        │ ''        │ 'Worker w-crash stopped responding: job was in processing for over 60s' │
+│ 2       │ '865d75a4' │ 'succeeded' │ 2        │ ''        │ 'Worker w-crash stopped responding: job was in processing for over 60s' │
+│ 3       │ '9a85da6a' │ 'succeeded' │ 1        │ ''        │ ''                                                                      │
+│ 4       │ '1516d0b9' │ 'succeeded' │ 1        │ ''        │ ''                                                                      │
+└─────────┴────────────┴─────────────┴──────────┴───────────┴─────────────────────────────────────────────────────────────────────────┘
+Attempt history of the 3 jobs that were running when the worker was killed:
+┌─────────┬────────────┬─────────┬───────────────┬────────────┬────────────┬─────────────┐
+│ (index) │ job        │ attempt │ worker_id     │ started    │ finished   │ outcome     │
+├─────────┼────────────┼─────────┼───────────────┼────────────┼────────────┼─────────────┤
+│ 0       │ '865d75a4' │ 1       │ 'w-crash'     │ '16:47:38' │ '16:58:24' │ 'abandoned' │
+│ 1       │ '865d75a4' │ 2       │ 'w-restarted' │ '16:58:26' │ '16:58:29' │ 'succeeded' │
+│ 2       │ 'a77b2a94' │ 1       │ 'w-crash'     │ '16:47:37' │ '16:58:24' │ 'abandoned' │
+│ 3       │ 'a77b2a94' │ 2       │ 'w-restarted' │ '16:58:25' │ '16:58:29' │ 'succeeded' │
+│ 4       │ 'db046ada' │ 1       │ 'w-crash'     │ '16:47:38' │ '16:58:24' │ 'abandoned' │
+│ 5       │ 'db046ada' │ 2       │ 'w-restarted' │ '16:58:25' │ '16:58:29' │ 'succeeded' │
+└─────────┴────────────┴─────────┴───────────────┴────────────┴────────────┴─────────────┘
